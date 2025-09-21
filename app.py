@@ -5,4 +5,5 @@ app = FastAPI()
 
 @app.get("/")
 def home():
-    return {"message": "Hello, world! My first web app 🎉"}
+    return {"message": "This will be replaced with some fancy AI magic 🎉"}
+
