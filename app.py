@@ -11,6 +11,7 @@ templates = Jinja2Templates(directory="templates")
 def home(request: Request):
     # Must pass {"request": request}, or it hangs
     return templates.TemplateResponse(
-        "index2.html",
+        "index3.html",
         {"request": request, "message": "This will be replaced with some fancy AI magic"}
     )
+
