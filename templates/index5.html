@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Similarity App 🔤</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            text-align: center;
+            padding: 100px;
+            margin: 0;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            max-width: 90%;
+            width: 500px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        p { font-size: 1.2rem; margin-bottom: 20px; }
+        form input {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            width: 80%;
+        }
+        form button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            background: #ff9800;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        form button:hover { background: #e68900; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🔤 Word2Vec Similarity App</h1>
+        <p>{{ message|safe }}</p>
+
+        <form action="/predict" method="post">
+            <input type="text" name="word" placeholder="Enter a word (e.g., king)" required><br>
+            <button type="submit">Find Similar Words</button>
+        </form>
+    </div>
+</body>
+</html>
