@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Word Similarity App 🔤</title>
+    <title>Related Words</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -46,12 +46,12 @@
 </head>
 <body>
     <div class="box">
-        <h1>🔤 Word2Vec Similarity App</h1>
+        <h1>Find Related Words</h1>
         <p>{{ message|safe }}</p>
 
         <form action="/predict" method="post">
-            <input type="text" name="word" placeholder="Enter a word (e.g., king)" required><br>
-            <button type="submit">Find Similar Words</button>
+            <input type="text" name="word" placeholder="Enter a word" required><br>
+            <button type="submit">Search</button>
         </form>
     </div>
 </body>
