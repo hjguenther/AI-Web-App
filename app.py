@@ -2,13 +2,16 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import gensim.downloader as api
+import re
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-# Load pretrained Google Word2Vec model (small version to avoid heavy downloads)
-# For full model, use: model = api.load("word2vec-google-news-300")
-model = api.load("glove-wiki-gigaword-100")  # smaller but works the same
+
+# Load pretrained Google Word2Vec model (small version to avoid heavy downloads) # For full model, use: 
+model = api.load("word2vec-google-news-300") 
+#model = api.load("glove-wiki-gigaword-100") smaller but works the same 
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
@@ -25,8 +28,8 @@ def predict(request: Request, word: str = Form(...)):
             {"request": request, "message": f"❌ The word '{word}' is not in the vocabulary."}
         )
 
-    # Find top 5 most similar words
-    similar_words = model.most_similar(word, topn=5)
+    # Find top 8 most similar words
+    similar_words = model.most_similar(word, topn=8)
     result_list = [f"{w} ({round(score, 3)})" for w, score in similar_words]
 
     return templates.TemplateResponse(
