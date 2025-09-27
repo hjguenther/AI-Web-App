@@ -25,9 +25,10 @@ def health_check():
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request, db: Session = Depends(get_db)):
     items = get_items(db)
-    return templates.TemplateResponse("index.html", {"request": request, "items": items})
+    return templates.TemplateResponse("index6.html", {"request": request, "items": items})
 
 @app.post("/add", response_class=HTMLResponse)
 def add_item(name: str = Form(...), db: Session = Depends(get_db)):
     create_item(db, name)
     return RedirectResponse("/", status_code=303)
+
