@@ -4,6 +4,8 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from .database import SessionLocal, engine, Base
 from .crud import get_items, create_item
+from models.model import Item
+
 
 # Create tables on startup
 Base.metadata.create_all(bind=engine)
@@ -35,4 +37,5 @@ def read_root(request: Request, db: Session = Depends(get_db)):
 def add_item(name: str = Form(...), db: Session = Depends(get_db)):
     create_item(db, name)
     return RedirectResponse("/", status_code=303)
+
 
