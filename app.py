@@ -10,7 +10,9 @@ templates = Jinja2Templates(directory="templates")
 
 # Load pretrained word2vec model
 #model = api.load("word2vec-google-news-300")
-model = api.load("glove-wiki-gigaword-100")
+#model = api.load("glove-wiki-gigaword-100")
+from gensim.models import KeyedVectors
+model = KeyedVectors.load("models/glove-wiki-gigaword-100.kv")
 
 # Connect to PostgreSQL using Render-injected DATABASE_URL
 db_url = os.getenv("DATABASE_URL")
@@ -62,4 +64,5 @@ def predict(request: Request, word: str = Form(...)):
         "index5.html",
         {"request": request, "message": f"✅ Word cloud for '{word}':", "word": word, "results": results}
     )
+
 
