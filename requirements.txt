@@ -5,4 +5,5 @@ scikit-learn
 joblib
 numpy
 sqlalchemy
-gensim
+psycopg2-binary
+python-dotenv
