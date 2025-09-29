@@ -1,34 +1,34 @@
-from fastapi import FastAPI, Request, Form, Depends
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import FastAPI, Request
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
 from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
-from database import SessionLocal, engine, Base
-from models.models import Item
-from crud import get_items, create_item
+from fastapi.responses import HTMLResponse
 
-Base.metadata.create_all(bind=engine)
-
-app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+app = FastAPI()
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token
+model = AutoModelForCausalLM.from_pretrained(model_name)
 
 @app.get("/", response_class=HTMLResponse)
-def read_root(request: Request, db: Session = Depends(get_db)):
-    items = get_items(db)
-    return templates.TemplateResponse("index6.html", {"request": request, "items": items})
+async def home(request: Request):
+    return templates.TemplateResponse("index7.html", {"request": request})
 
-@app.post("/add", response_class=HTMLResponse)
-def add_item(name: str = Form(...), db: Session = Depends(get_db)):
-    create_item(db, name)
-    return RedirectResponse("/", status_code=303)
-
+@app.post("/generate")
+async def generate(request: Request):
+    data = await request.json()
+    prompt = data.get("prompt", "")
+    inputs = tokenizer(prompt, return_tensors="pt")
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=150,
+            temperature=0.9,
+            top_p=0.95,
+            do_sample=True
+        )
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return {"response": response}
